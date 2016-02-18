@@ -3,16 +3,34 @@
 class tcxParser
 {
 
-    public function loadTCXFile($file) {
+    protected $xml;
+    protected $tcxArr = array();
 
-        if(file_exists($file)) {
+    public function __construct() {
+    }
 
-            $data = simplexml_load_file($file);
+    public function loadFile($file) {
 
-            return $data;
+        if(file_exists($file) && $this->hasTcxExt($file)) {
+
+            $this->xml = simplexml_load_file($file);
+
+            if($this->xml) {
+                return true;
+            } else {
+                return false;
+            }
 
         }
 
+    }
+
+    public function getXml() {
+        return $this->xml;
+    }
+
+    protected function hasTcxExt($file) {
+        return preg_match('/\.tcx$/', $file);
     }
 
 }
